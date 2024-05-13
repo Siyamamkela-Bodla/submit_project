@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitprop - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+</head>
+<body>
+    <header>
+        <h1>Welcome to Bitprop</h1>
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Bitprop Logo">
+    </header>
+    <main>
+        <section id="properties">
+            <!-- <h2>Available Properties</h2> -->
+            <!-- Property listings will be dynamically added here -->
+        </section>
+        <section id="interest-form">
+            <h2>Express Interest</h2>
+            <form id="interest-form">
+                <label for="property-select">Select Property:</label>
+                <select id="property-select">
+                    <!-- Options will be dynamically added here -->
+                </select>
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" required>
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" required>
+                <button type="submit">Submit</button>
+            </form>
+            <p id="confirmation-message" style="display: none;">Thank you! You will be contacted soon by an agent.</p>
+        </section>
+        <section id="login-section">
+            <a href="/login?type=agent"><button>Login as Agent</button></a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Bitprop. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var properties = [
+                {"name": "Apartment 1", "agent_id": "1"},
+                {"name": "Apartment 2", "agent_id": "2"},
+                {"name": "Apartment 3", "agent_id": "3"},
+                {"name": "Apartment 4", "agent_id": "4"},
+                {"name": "House 1", "agent_id": "0"},
+                {"name": "House 2", "agent_id": "1"},
+                {"name": "House 3", "agent_id": "2"},
+                {"name": "House 4", "agent_id": "3"}
+            ];
+            var select = document.getElementById("property-select");
+
+            properties.forEach(function(property) {
+                var option = document.createElement("option");
+                option.text = property.name + " (Agent: " + property.agent_id + ")";
+                option.value = property.agent_id; // corrected to use agent_id
+                select.add(option);
+            });
+
+            var form = document.getElementById("interest-form");
+            var confirmationMessage = document.getElementById("confirmation-message");
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent form submission
+                confirmationMessage.style.display = "block"; // Show confirmation message
+                // Here you can add code to submit the form data to your backend or perform other actions
+            });
+        });
+    </script>
+</body>
+</html>
