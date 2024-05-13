@@ -10,15 +10,36 @@ app.secret_key = secret_key
 
 # Function to establish database connection
 def get_db_connection():
+    """
+    Establishes a connection to the SQLite database.
+
+    Returns:
+        tuple: A tuple containing the database connection and cursor.
+    """
     conn = sqlite3.connect('bitprop.db')
     return conn, conn.cursor()
 
 # Function to close database connection
 def close_db_connection(conn):
+    """
+    Closes the database connection.
+
+    Args:
+        conn: The database connection to be closed.
+
+    Returns:
+        None
+    """
     conn.close()
 
 # Function to create database tables if not exists
 def create_tables():
+    """
+    Creates database tables if they do not exist.
+
+    Returns:
+        None
+    """
     conn, cursor = get_db_connection()
     cursor.execute('''CREATE TABLE IF NOT EXISTS properties (
                         id INTEGER PRIMARY KEY,
@@ -47,6 +68,12 @@ create_tables()
 # Route for the home page
 @app.route('/')
 def home():
+    """
+    Renders the home page with a list of properties.
+
+    Returns:
+        str: Rendered HTML template.
+    """
     conn, cursor = get_db_connection()
     cursor.execute("SELECT * FROM properties")
     properties = cursor.fetchall()
@@ -56,6 +83,12 @@ def home():
 # Route for the login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Handles user login.
+
+    Returns:
+        str: Rendered HTML template.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -73,6 +106,15 @@ def login():
 # Route for the agent dashboard
 @app.route('/dashboard/<agent_id>')
 def dashboard(agent_id):
+    """
+    Renders the agent dashboard.
+
+    Args:
+        agent_id (int): ID of the agent.
+
+    Returns:
+        str: Rendered HTML template.
+    """
     if 'logged_in' not in session or int(agent_id) != session.get('agent_id'):
         return redirect(url_for('login'))
 
@@ -85,6 +127,12 @@ def dashboard(agent_id):
 # Route to handle tenant inquiries
 @app.route('/submit_interest', methods=['POST'])
 def submit_interest():
+    """
+    Handles submission of tenant inquiries.
+
+    Returns:
+        str: JSON response.
+    """
     if 'logged_in' not in session:
         return jsonify({"message": "Unauthorized"}), 401
     
@@ -103,12 +151,24 @@ def submit_interest():
 # Route to logout
 @app.route('/logout')
 def logout():
+    """
+    Logs out the user.
+
+    Returns:
+        str: Redirect response.
+    """
     session.clear()
     return redirect(url_for('login'))
 
 # Route for agent registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Handles agent registration.
+
+    Returns:
+        str: Rendered HTML template or redirect response.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -136,6 +196,12 @@ def register():
 # Route for agent dashboard to manage properties
 @app.route('/dashboard/manage_properties')
 def manage_properties():
+    """
+    Renders the page to manage properties.
+
+    Returns:
+        str: Rendered HTML template.
+    """
     if 'logged_in' not in session:
         return redirect(url_for('login'))
 
@@ -148,6 +214,12 @@ def manage_properties():
 # Route for adding a new property
 @app.route('/add_property', methods=['POST'])
 def add_property():
+    """
+    Adds a new property.
+
+    Returns:
+        str: Redirect response.
+    """
     if 'logged_in' not in session:
         return jsonify({"message": "Unauthorized"}), 401
     
@@ -164,6 +236,15 @@ def add_property():
 # Route for deleting a property
 @app.route('/delete_property/<property_id>', methods=['POST'])
 def delete_property(property_id):
+    """
+    Deletes a property.
+
+    Args:
+        property_id (int): ID of the property to be deleted.
+
+    Returns:
+        str: Redirect response.
+    """
     if 'logged_in' not in session:
         return jsonify({"message": "Unauthorized"}), 401
     
