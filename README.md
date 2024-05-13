@@ -4,18 +4,19 @@ This project implements a tenant registration system for Bitprop, a real estate 
 
 ## Project Structure
 
-- `database.py`: Contains the `Database` class responsible for database interactions.
-- `email_service.py`: Contains the `EmailService` class responsible for sending email notifications.
-- `main.py`: Contains the main logic of the application, including user authentication and handling user inputs.
+- `app.py`: Main Flask application file.
+- `templates/`: HTML templates for rendering web pages.
+- `static/`: Static files (CSS, JavaScript, images) for the frontend.
+- `database.py`: Database management functions.
+- `email_handler.py`: For handling emails.
 
 ## Dependencies
 
 This project relies on the following Python packages:
 - `sqlite3`: Standard library module for SQLite database interaction.
-- `smtplib`: Standard library module for sending emails via SMTP.
-- `email`: Standard library module for composing email messages.
-- `email.mime.text`: Standard library module for creating MIME text parts for email messages.
-- `email.mime.multipart`: Standard library module for creating MIME multipart messages for email messages.
+- `sendGrid`: Standard library module for sending emails via sendgrid.
+
+
 
 These dependencies are included in the Python standard library and do not require separate installation.
 
@@ -23,8 +24,7 @@ These dependencies are included in the Python standard library and do not requir
 
 1. Clone the repository: `git clone https://github.com/Siyamamkela-Bodla/submit_project.git`
 2. Install any additional dependencies: None required for this project.
-3. Update the configuration in `config.py` with SMTP server details for email notifications.
-4. Run the application: `python main.py`
+3. Run the application: `python app.py`, `http://127.0.0.1:5000/`
 
 ## Usage
 
@@ -39,6 +39,15 @@ These dependencies are included in the Python standard library and do not requir
 - `agents`: Stores agent details, including username and password.
 - `tenants`: Stores information about tenants, including full name and email.
 - `registrations`: Links properties and tenants, indicating tenant interest in properties.
+- `inquiries`: Stores inquiries made by tenants for properties, including the property ID, name, and email of the tenant.
+
+## Struggles Faced
+
+- `Difficulty setting up database connections`: Encountered errors when querying data. Resolved by carefully reviewing documentation.
+
+- `Setting up SendGrid account`: Faced challenges during the setup of the SendGrid account for email notifications. Encountered authentication errors and issues with API configuration. Resolved by carefully following the documentation and reaching out to SendGrid support for assistance.
+
+- `Dashboard redirection after login`: Despite implementing session management and redirection logic, faced issues with redirection to the agent dashboard after successful login. Despite the implementation being in place, the issue persisted, indicating that there might be underlying factors contributing to the problem beyond what was initially addressed. 
 
 ## Additional Notes
 
@@ -46,8 +55,4 @@ These dependencies are included in the Python standard library and do not requir
 - Logging: Logging functionality can be added to log application events and errors for debugging purposes.
 - Security: Ensure proper security measures are implemented, such as secure password storage and data encryption.
 
-## Contact Information For Bitprop
 
-- Email: info@bitprop.com
-- Website: www.bitprop.com
-- Twitter: @bitpropza
